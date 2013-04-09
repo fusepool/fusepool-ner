@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0" localization="OSGI-INF/metatype/metatype">
+    <OCD id="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine" name="%eu.fusepool.enhancer.engines.ners.NerEnhancementEngine.name" description="%eu.fusepool.enhancer.engines.ners.NerEnhancementEngine.description">
+        <AD id="stanbol.enhancer.engine.name" type="String" name="%stanbol.enhancer.engine.name.name" description="%stanbol.enhancer.engine.name.description"/>
+        <AD id="eu.fusepool.enhancer.engines.ners.name" type="String" name="%eu.fusepool.enhancer.engines.ners.name.name" description="%eu.fusepool.enhancer.engines.ners.name.description"/>
+        <AD id="eu.fusepool.enhancer.engines.ners.description" type="String" name="%eu.fusepool.enhancer.engines.ners.description.name" description="%eu.fusepool.enhancer.engines.ners.description.description"/>
+        <AD id="eu.fusepool.enhancer.engines.ners.types" type="String" name="%eu.fusepool.enhancer.engines.ners.types.name" description="%eu.fusepool.enhancer.engines.ners.types.description" cardinality="20"/>
+        <AD id="eu.fusepool.enhancer.engines.ners.model" type="String" name="%eu.fusepool.enhancer.engines.ners.model.name" description="%eu.fusepool.enhancer.engines.ners.model.description"/>
+    </OCD>
+    <Designate pid="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine" factoryPid="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine">
+        <Object ocdref="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine"/>
+    </Designate>
+</metatype:MetaData>

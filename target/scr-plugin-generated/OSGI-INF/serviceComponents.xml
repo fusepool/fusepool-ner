@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0">
+    <scr:component enabled="true" immediate="true" name="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine" configuration-policy="require" activate="activate" deactivate="deactivate">
+        <implementation class="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine"/>
+        <service servicefactory="false">
+            <provide interface="org.apache.stanbol.enhancer.servicesapi.EnhancementEngine"/>
+            <provide interface="org.apache.stanbol.enhancer.servicesapi.ServiceProperties"/>
+        </service>
+        <property name="stanbol.enhancer.engine.name"/>
+        <property name="eu.fusepool.enhancer.engines.ners.name"/>
+        <property name="eu.fusepool.enhancer.engines.ners.description"/>
+        <property name="eu.fusepool.enhancer.engines.ners.types"/>
+        <property name="eu.fusepool.enhancer.engines.ners.model"/>
+        <property name="service.vendor" type="String" value="Apache Stanbol"/>
+        <property name="service.pid" value="eu.fusepool.enhancer.engines.ners.NerEnhancementEngine"/>
+    </scr:component>
+</components>
