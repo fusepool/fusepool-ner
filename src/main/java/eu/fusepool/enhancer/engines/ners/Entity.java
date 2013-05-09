@@ -28,6 +28,4 @@ public class Entity {
         this.type = type;
         this.timestamp = timestamp;
     }
-    
-    
 }

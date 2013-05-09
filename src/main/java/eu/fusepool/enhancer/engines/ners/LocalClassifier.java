@@ -46,7 +46,7 @@ public class LocalClassifier {
 
     /**
      * Checks whether the classifier was loaded or not.
-     *
+     * 
      * @return
      */
     public boolean isClassifierNull() {
