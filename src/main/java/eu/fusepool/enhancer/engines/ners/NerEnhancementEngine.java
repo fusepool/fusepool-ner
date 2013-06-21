@@ -60,9 +60,6 @@ import static org.apache.stanbol.enhancer.servicesapi.rdf.Properties.ENHANCER_EN
 public class NerEnhancementEngine  
         extends AbstractEnhancementEngine<RuntimeException,RuntimeException>
         implements EnhancementEngine, ServiceProperties {
-   
-    @Property
-    public static final String MODEL_NAME = "eu.fusepool.enhancer.engines.ners.name";
 
     @Property
     public static final String MODEL_DESCRIPTION = "eu.fusepool.enhancer.engines.ners.description";
@@ -100,7 +97,6 @@ public class NerEnhancementEngine
     private static final Logger log = LoggerFactory.getLogger(NerEnhancementEngine.class);
     
     private NER ner;
-    private String name;
     private String description;
     private Map<String,UriRef> types;
     private String model;
@@ -111,9 +107,6 @@ public class NerEnhancementEngine
         super.activate(context);
        
         Dictionary<String,Object> config = context.getProperties();
-
-        Object n = config.get(MODEL_NAME);
-        this.name = n == null || n.toString().isEmpty() ? null : n.toString();
 
         Object d = config.get(MODEL_DESCRIPTION);
         this.description = d == null || d.toString().isEmpty() ? null : d.toString();
