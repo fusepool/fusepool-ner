@@ -19,11 +19,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     
     <modelVersion>4.0.0</modelVersion>
-    <!-- TODO use fusepool parent -->
+    
     <parent>
-        <groupId>org.apache.stanbol</groupId>
-        <artifactId>org.apache.stanbol.enhancer.parent</artifactId>
-        <version>0.10.0</version>
+        <groupId>eu.fusepool</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../parent</relativePath>
     </parent>
     
     <groupId>eu.fusepool</groupId>
@@ -71,6 +72,7 @@
             <plugin>
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
+                <version>0.10</version>
                 <configuration>
                     <excludes>
                         <exclude>src/main/resources/config/eu.fusepool.enhancer.engines.ners.NerEnhancementEngine-nerCancer.config</exclude>
@@ -95,24 +97,22 @@
         <dependency>
             <groupId>org.apache.stanbol</groupId>
             <artifactId>org.apache.stanbol.enhancer.servicesapi</artifactId>
-            <version>0.10.0</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.stanbol</groupId>
             <artifactId>org.apache.stanbol.commons.stanboltools.offline</artifactId>
-            <version>0.11.0</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.stanbol</groupId>
             <artifactId>org.apache.stanbol.entityhub.servicesapi</artifactId>
-            <version>0.11.0</version>
-            <scope>compile</scope>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.stanbol</groupId>
             <artifactId>org.apache.stanbol.entityhub.model.clerezza</artifactId>
-            <version>0.11.0</version>
-            <scope>compile</scope>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -128,11 +128,6 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.scr.annotations</artifactId>
-            <version>1.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
