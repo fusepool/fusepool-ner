@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import org.apache.clerezza.rdf.core.LiteralFactory;
 import org.apache.clerezza.rdf.core.MGraph;
 import org.apache.clerezza.rdf.core.UriRef;
@@ -48,6 +49,7 @@ import static org.apache.stanbol.enhancer.servicesapi.rdf.Properties.ENHANCER_ST
 import static org.apache.stanbol.enhancer.servicesapi.rdf.Properties.ENHANCER_CONFIDENCE;
 import static org.apache.stanbol.enhancer.servicesapi.rdf.Properties.ENHANCER_ENTITY_LABEL;
 import static org.apache.stanbol.enhancer.servicesapi.rdf.Properties.ENHANCER_ENTITY_TYPE;
+import static org.apache.stanbol.enhancer.servicesapi.rdf.Properties.ENHANCER_ENTITY_REFERENCE;
 
 
 @Component(configurationFactory = true, 
@@ -216,6 +218,8 @@ public class NerEnhancementEngine
             ci.getLock().writeLock().lock();
             try {
                 for (Entity e : entities) {
+                    String uri = "urn:fusepool:" + UUID.randomUUID().toString();
+                    UriRef entity_uri = new UriRef(uri);
                     UriRef textEnhancement = EnhancementEngineHelper.createTextEnhancement(ci, this);
                     if(types.get(e.type) != null){
                         g.add(new TripleImpl(textEnhancement, DC_TYPE, types.get(e.type))); 
@@ -225,6 +229,9 @@ public class NerEnhancementEngine
                     g.add(new TripleImpl(textEnhancement, ENHANCER_CONFIDENCE, literalFactory.createTypedLiteral(e.score)));
                     g.add(new TripleImpl(textEnhancement, ENHANCER_START, new PlainLiteralImpl(Integer.toString(e.begin)))); 
                     g.add(new TripleImpl(textEnhancement, ENHANCER_END, new PlainLiteralImpl(Integer.toString(e.end)))); 
+                    g.add(new TripleImpl(textEnhancement, ENHANCER_ENTITY_REFERENCE, entity_uri)); 
+                    g.add(new TripleImpl(entity_uri, org.apache.clerezza.rdf.ontologies.RDF.type, types.get(e.type)));
+                    g.add(new TripleImpl(entity_uri, org.apache.clerezza.rdf.ontologies.RDFS.label, new PlainLiteralImpl(e.label)));                    
                 }
             } finally {
                 ci.getLock().writeLock().unlock();
