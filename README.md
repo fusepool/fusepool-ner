@@ -11,7 +11,7 @@ The outcome of this project is an OSGi bundle (enhancement engine) for Apache St
 
 The enhancer engine can contains multiple NER instances, each instance is a separate module, and therefore each module has its own configuration page inside Stanbol Configuration Manager. It also means that different NER instances can be part of different enhancer chains.
 
-Currenty Fusepool-SMA has the following instances for English texts:
+Currenty Fusepool-NER has the following instances for English texts:
 * Default news-based domain: for extracting persons, location and organizations from English. 
 * Mobile domain: technologies, device names and other concepts related to mobile communication.
 * Elements domain: Name of chemical elements from English texts.
