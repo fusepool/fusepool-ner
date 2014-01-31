@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LocalClassifier {
     protected String path;
@@ -21,7 +19,6 @@ public class LocalClassifier {
      * class represents a local classifier object and it uses Stanford based
      * model files to extract entities. The model file needs to be loaded into
      * the memory and used as a CRFClassifier object.
-     *
      * @param path
      */
     public LocalClassifier(String model) throws ClassCastException, IOException, ClassNotFoundException{
@@ -46,7 +43,6 @@ public class LocalClassifier {
 
     /**
      * Checks whether the classifier was loaded or not.
-     * 
      * @return
      */
     public boolean isClassifierNull() {
@@ -60,7 +56,6 @@ public class LocalClassifier {
     /**
      * If classifier is loaded then it executes the entity extraction and
      * returns the annotated text.
-     *
      * @param text
      * @return
      */
@@ -75,27 +70,31 @@ public class LocalClassifier {
     /**
      * Based on the classifier, it extracts the entities from the
      * input text, and returns the them in a List.
-     *
      * @param text
      * @return
      */
     public List<Entity> GetNamedEntities(String text) throws Exception{
         if (!isClassifierNull()) {
             
-            //Retrieving the entities
+            // retrieving the entities
             List<Entity> entities = new ArrayList<Entity>();
+            // extract entities from input text
             List<Triple<String,Integer,Integer>> tagedTokens = classifier.classifyToCharacterOffsets(text);
             Entity e;
             for(Triple triple : tagedTokens){
                 e = new Entity();
+                // get begining of label
                 e.begin = ((Integer)triple.second).intValue();
+                // get end of label
                 e.end = ((Integer)triple.third).intValue();
+                // get the label from the text
                 e.label = text.substring(e.begin, e.end);
+                // get the type
                 e.type = triple.first.toString();
                 entities.add(e);
             }
             
-            //Retrieving the confidence scores
+            // retrieving the confidence scores
             Map<String, EntityToken> entityTokenCollection = new HashMap<String, EntityToken>();
             List<EntityToken> entityTokenList;
             EntityToken previous = null;
@@ -106,11 +105,10 @@ public class LocalClassifier {
                     entityToken.previous = previous;
                     entityTokenCollection.put(Integer.toString(entityToken.end), entityToken);
                     previous = entityToken;
-                    //System.out.println(entityToken.toString());
                 }
             }
             
-            //Matching the confidence scores with the entities
+            // matching the confidence scores with the entities
             for (Entity entity : entities) {
                 EntityToken current = entityTokenCollection.get(Integer.toString(entity.end));
                 double score = 0;
@@ -135,9 +133,7 @@ public class LocalClassifier {
                         entity.score = current.GetScoreByType(entity.type);
                     }
                 }
-                //System.out.println(entity.toString());
             }
-            
             return entities;
         }
         else {

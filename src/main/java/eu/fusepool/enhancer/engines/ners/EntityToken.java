@@ -1,17 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.fusepool.enhancer.engines.ners;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- *  
- * @author Gabor
+ * Represents the probabilities for each token of the entity for each type.
+ * @author Gábor Reményi
  */
 public class EntityToken {
     public String label;
@@ -26,7 +20,7 @@ public class EntityToken {
     
     /**
      * Returns the probability score which belongs to the given type.
-     * @param type
+     * @param type  Type of the entity token. i.e. PERSON
      * @return 
      */
     public double GetScoreByType(String type){
@@ -35,8 +29,8 @@ public class EntityToken {
     
     /**
      * Adds a new probability score to this instance.
-     * @param type
-     * @param score 
+     * @param type  Type of the entity token. i.e. PERSON
+     * @param score Score of the entity token for the current type.
      */
     public void AddProbability(String type, Double score){
         probabilities.put(type, score);

@@ -1,9 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.fusepool.enhancer.engines.ners;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -63,12 +58,20 @@ public class NerEnhancementEngine
         extends AbstractEnhancementEngine<RuntimeException,RuntimeException>
         implements EnhancementEngine, ServiceProperties {
 
+    /**
+     * A short description about the NER model.
+     */
     @Property
     public static final String MODEL_DESCRIPTION = "eu.fusepool.enhancer.engines.ners.description";
-    
+    /**
+     * The type and the URI of the type of the this model separated by a semicolon. The type is defined at the building of 
+     * the model file. (e.g. PERSON, LOCATION) The syntax is "{type};{uri}", for example "PERSON;http://dbpedia.org/ontology/Person"
+     */
     @Property(cardinality = 20)
     public static final String MODEL_TYPES = "eu.fusepool.enhancer.engines.ners.types";
-    
+    /**
+     * Relative path of the model file. (The name of the model file e.g. "en-ner-disease.crf.ser.gz")
+     */
     @Property
     public static final String MODEL_PATH = "eu.fusepool.enhancer.engines.ners.model";
     
@@ -83,7 +86,6 @@ public class NerEnhancementEngine
      * {@link EnhancementJobManager#DEFAULT_ORDER}
      */
     public static final Integer defaultOrder = ORDERING_EXTRACTION_ENHANCEMENT;
-    
     /**
      * This contains the only MIME type directly supported by this enhancement
      * engine.
@@ -107,12 +109,12 @@ public class NerEnhancementEngine
     @Override
     protected void activate(ComponentContext context) throws ConfigurationException {
         super.activate(context);
-       
+       // read configuration
         Dictionary<String,Object> config = context.getProperties();
-
+        // reading model description property
         Object d = config.get(MODEL_DESCRIPTION);
         this.description = d == null || d.toString().isEmpty() ? null : d.toString();
-
+        // reading model types property
         Object t = config.get(MODEL_TYPES);
         if(t instanceof Iterable<?>){
             types = new HashMap<String,UriRef>();
@@ -140,13 +142,14 @@ public class NerEnhancementEngine
         } else {
             types = null;
         }
+        // reading model path property
         Object m = config.get(MODEL_PATH);
         this.model = m == null || m.toString().isEmpty() ? null : m.toString();
-        
+        // model path cannot be null or empty
         if(this.model == null || this.model.isEmpty()){
             throw new ConfigurationException(MODEL_PATH, "Missing or invalid configuration of the supported model");
         }    
-
+        // get absolute path of the model file
         URL url = this.getClass().getResource("/classifiers/" + model);
         
         if(url == null)
@@ -176,7 +179,19 @@ public class NerEnhancementEngine
 
     @Override
     public int canEnhance(ContentItem ci) throws EngineException {
-        return ENHANCE_SYNCHRONOUS; 
+        // check if content is present
+        try {
+            if ((ci.getBlob() == null)
+                    || (ci.getBlob().getStream().read() == -1)) {
+                return CANNOT_ENHANCE;
+            }
+        } catch (IOException e) {
+            log.error("Failed to get the text for "
+                    + "enhancement of content: " + ci.getUri(), e);
+            throw new InvalidContentException(this, ci, e);
+        }
+        // no reason why we should require to be executed synchronously
+        return ENHANCE_ASYNC;
     }
 
     @Override
@@ -191,10 +206,12 @@ public class NerEnhancementEngine
         }
         String text = "";
         try {
+            // get text from the input
             text = ContentItemHelper.getText(contentPart.getValue());
         } catch (IOException e) {
             throw new InvalidContentException(this, ci, e);
         }
+        
         if (text.trim().length() == 0) {
             log.info("No text contained in ContentPart {} of ContentItem {}",
                     contentPart.getKey(), ci.getUri());
@@ -203,6 +220,7 @@ public class NerEnhancementEngine
         
         List<Entity> entities = null;
         try {
+            // extract entities from input text
             entities = ner.GetNamedEntities(text);
             log.info("entities identified: {}",entities);
         }
@@ -218,6 +236,7 @@ public class NerEnhancementEngine
             ci.getLock().writeLock().lock();
             try {
                 for (Entity e : entities) {
+                    // generate a new URI for each entity
                     String uri = "urn:fusepool:" + UUID.randomUUID().toString();
                     UriRef entity_uri = new UriRef(uri);
                     UriRef textEnhancement = EnhancementEngineHelper.createTextEnhancement(ci, this);

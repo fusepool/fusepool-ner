@@ -1,19 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.fusepool.enhancer.engines.ners;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
  * This class is responsible for the entity extraction and is based on local 
  * classifiers. Local classifiers are using Stanford based model files to 
  * extract entities from plain texts.
- * 
- * @author Gabor
+ * @author Gábor Reményi
  */
 public class NER {
     LocalClassifier localClassifier;
@@ -27,7 +21,7 @@ public class NER {
         if (localClassifier != null) {
             RemoveClassifier();
         }
-        
+
         localClassifier = new LocalClassifier(model);
     }
 
@@ -45,7 +39,6 @@ public class NER {
     /**
      * Based on the classifier, it extracts the entities from the
      * input text, and returns the them in a List.
-     *
      * @param text
      * @return
      */

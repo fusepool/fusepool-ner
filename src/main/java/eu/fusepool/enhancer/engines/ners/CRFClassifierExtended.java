@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package eu.fusepool.enhancer.engines.ners;
 
 import edu.stanford.nlp.ie.crf.CRFClassifier;
@@ -18,7 +14,7 @@ import java.util.List;
 /**
  * CRFClassifierExtended extends the original CRFClassifier to provide functionality
  * for retrieving the confidence scores (or probability values) for the entities.
- * @author Gabor
+ * @author Gábor Reményi
  */
 public class CRFClassifierExtended<IN extends CoreMap> extends CRFClassifier<IN>{
     /**
